@@ -42,7 +42,10 @@ void initCellStatus(int **initCellMap)
     {
         for(int j = 1; j <= gWidth; ++ j)
         {
-            gCellMap[i][j] = initCellMap[i][j];
+            if(initCellMap[i - 1][j - 1] != 0 && initCellMap[i - 1][j - 1] != 1) {
+                throw string("illegal");
+            }
+            gCellMap[i][j] = initCellMap[i - 1][j - 1];
         }
     }
 }
@@ -92,7 +95,7 @@ void testShouldThrowExceptionWhenInitiateWithWidthAndHeightIsIllegal()
     string exceptionstring = "";
     int width = 0;
     try{
-    initMapSize(height,width);
+        initMapSize(height,width);
     }
     catch(string e){
         exceptionstring = e;
@@ -103,19 +106,46 @@ void testShouldThrowExceptionWhenInitiateWithWidthAndHeightIsIllegal()
 void testShouldReturnACellMapWhenInitialteWithInitalCellMap()
 {
     // case 1 2x2
-    int initCellMap[2][2] = {1, 0, 1, 0};
+    int **pInitCellMap = new int*[2];
+    pInitCellMap[0] = new int[2];
+    pInitCellMap[1] = new int[2];
+    pInitCellMap[0][0] = 0;
+    pInitCellMap[0][1] = 1;
+    pInitCellMap[1][0] = 1;
+    pInitCellMap[1][1] = 0;
 
     initMapSize(2, 2);
-    initCellStatus((int **)initCellMap);
+    initCellStatus(pInitCellMap);
 
-    for(int i = 0; i < 2; ++ i)
+    for(int i = 1; i <= 2; ++ i)
     {
-        for(int j = 0; j < 2; ++ j)
+        for(int j = 1; j <= 2; ++ j)
         {
-            assert(gCellMap[i][j] == initCellMap[i][j]);
+            assert(gCellMap[i][j] == pInitCellMap[i - 1][j - 1]);
         }
     }
+}
 
+void testShouldThrowExceptionWhenInitialteWithInitalCellMapIllegal()
+{
+    // case 1 2x2
+    int **pInitCellMap = new int*[2];
+    pInitCellMap[0] = new int[2];
+    pInitCellMap[1] = new int[2];
+    pInitCellMap[0][0] = 0;
+    pInitCellMap[0][1] = -1;
+    pInitCellMap[1][0] = 1;
+    pInitCellMap[1][1] = 0;
+    string exceptionString = "";
+
+    initMapSize(2, 2);
+    try {
+        initCellStatus(pInitCellMap);
+    } catch(string e) {
+        exceptionString = e;
+    }
+
+    assert(exceptionString == "illegal");
 }
 
 
@@ -126,7 +156,7 @@ int main()
     testShouldThrowExceptionWhenInitiateWithWidthAndHeightIsIllegal();
 
     testShouldReturnACellMapWhenInitialteWithInitalCellMap();
-
+    testShouldThrowExceptionWhenInitialteWithInitalCellMapIllegal();
 
 
     return 0;
