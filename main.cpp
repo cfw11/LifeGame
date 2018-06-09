@@ -50,7 +50,101 @@ void initCellStatus(int **initCellMap)
     }
 }
 
+bool evolveStatus(bool currentCellStatus, int aroundLiveCells)
+{
+    if(currentCellStatus) {
+        if(aroundLiveCells < 2) {
+            return false;
+        }
+        if(aroundLiveCells > 3) {
+            return false;
+        }
+        if(aroundLiveCells == 3) {
+            return true;
+        }
+        if(aroundLiveCells == 2) {
+            return currentCellStatus;
+        }
+    } else {
+        if(aroundLiveCells == 3) {
+            return true;
+        }
+    }
 
+    return false;
+}
+
+void testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithOne()
+{
+    int liveCells;
+    bool currentStatus;
+    bool res;
+
+    liveCells = 1;
+    currentStatus = true;
+    res = evolveStatus(currentStatus, liveCells);
+    assert(false == res);
+}
+
+void testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithFour()
+{
+    int liveCells;
+    bool currentStatus;
+    bool res;
+
+    liveCells = 4;
+    currentStatus = true;
+    res = evolveStatus(currentStatus, liveCells);
+    assert(false == res);
+}
+
+void testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithFalseAndAroundLiveCellsWithThree()
+{
+    int liveCells;
+    bool currentStatus;
+    bool res;
+
+    liveCells = 3;
+    currentStatus = false;
+    res = evolveStatus(currentStatus, liveCells);
+    assert(true == res);
+}
+
+void testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithThree()
+{
+    int liveCells;
+    bool currentStatus;
+    bool res;
+
+    liveCells = 3;
+    currentStatus = true;
+    res = evolveStatus(currentStatus, liveCells);
+    assert(true == res);
+}
+
+void testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithTwo()
+{
+    int liveCells;
+    bool currentStatus;
+    bool res;
+
+    liveCells = 2;
+    currentStatus = true;
+    res = evolveStatus(currentStatus, liveCells);
+    assert(true == res);
+}
+
+void testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithFalseAndAroundLiveCellsWithTwo()
+{
+    int liveCells;
+    bool currentStatus;
+    bool res;
+
+    liveCells = 2;
+    currentStatus = false;
+    res = evolveStatus(currentStatus, liveCells);
+    assert(false == res);
+}
 
 void testShouldReturnAMapWhenInitiateWithWidthAndHeight()
 {
@@ -151,13 +245,18 @@ void testShouldThrowExceptionWhenInitialteWithInitalCellMapIllegal()
 
 int main()
 {
-
     testShouldReturnAMapWhenInitiateWithWidthAndHeight();
     testShouldThrowExceptionWhenInitiateWithWidthAndHeightIsIllegal();
 
     testShouldReturnACellMapWhenInitialteWithInitalCellMap();
     testShouldThrowExceptionWhenInitialteWithInitalCellMapIllegal();
 
+    testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithOne();
+    testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithFour();
+    testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithFalseAndAroundLiveCellsWithThree();
+    testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithThree();
+    testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithTwo();
+    testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithFalseAndAroundLiveCellsWithTwo();
 
     return 0;
 }
