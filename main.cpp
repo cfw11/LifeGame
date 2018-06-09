@@ -29,13 +29,13 @@ void initCellStatus(int **initCellMap)
 
     for(int i = 0; i < gHeight + 2; ++ i)
     {
-        gCellMap[i][0] = -1;
-        gCellMap[i][gWidth + 1] = -1;
+        gCellMap[i][0] = 0;
+        gCellMap[i][gWidth + 1] = 0;
     }
     for(int j = 0; j < gWidth + 2; ++ j)
     {
-        gCellMap[0][j] = -1;
-        gCellMap[gHeight + 1][j] = -1;
+        gCellMap[0][j] = 0;
+        gCellMap[gHeight + 1][j] = 0;
     }
 
     for(int i = 1; i <= gHeight; ++ i)
@@ -72,6 +72,113 @@ bool evolveStatus(bool currentCellStatus, int aroundLiveCells)
     }
 
     return false;
+}
+
+void iterate(int times)
+{
+    int **countMap = new int*[gHeight + 2];
+    for(int i = 0; i < gHeight + 2; ++ i)
+    {
+        countMap[i] = new int[gWidth + 2];
+    }
+
+    if(times < 0) times = 0;
+
+//    for(int i = 1; i <= gHeight; ++ i)
+//    {
+//        for(int j = 1; j <= gWidth; ++ j)
+//        {
+//            cout << gCellMap[i][j] << endl;
+//        }
+//    }
+
+    while(times --) {
+        for(int i = 1; i <= gHeight; ++ i)
+        {
+            for(int j = 1; j <= gWidth; ++ j)
+            {
+                countMap[i][j] = 0;
+                for(int k = i - 1; k <= i + 1; ++ k)
+                {
+                    countMap[i][j] += gCellMap[k][j - 1];
+                    countMap[i][j] += gCellMap[k][j];
+                    countMap[i][j] += gCellMap[k][j + 1];
+                }
+                countMap[i][j] -= gCellMap[i][j];
+            }
+        }
+
+        for(int i = 1; i <= gHeight; ++ i)
+        {
+            for(int j = 1; j <= gWidth; ++ j)
+            {
+                gCellMap[i][j] = evolveStatus(gCellMap[i][j], countMap[i][j]);
+            }
+        }
+    }
+}
+
+void testShouldReturnAFinalCellMapWhenGivenInitialCellMapTwoMultiplyTwoAndIteratorTimesThree()
+{
+    int **pInitCellMap = new int*[2];
+    pInitCellMap[0] = new int[2];
+    pInitCellMap[1] = new int[2];
+    pInitCellMap[0][0] = 0;
+    pInitCellMap[0][1] = 1;
+    pInitCellMap[1][0] = 1;
+    pInitCellMap[1][1] = 0;
+    int finalCellMap[2][2] = {0, 0, 0, 0};
+
+    initMapSize(2, 2);
+    initCellStatus(pInitCellMap);
+    iterate(3);
+
+    for(int i = 1; i <= 2; ++ i)
+    {
+        for(int j = 1; j <= 2; ++ j)
+        {
+            assert(gCellMap[i][j] == finalCellMap[i - 1][j - 1]);
+        }
+    }
+}
+
+void testShouldReturnAFinalCellMapWhenGivenInitialCellMapFourMultiplyFourAndIteratorTimesThree()
+{
+    int **pInitCellMap = new int*[4];
+    for(int i = 0; i < 4; ++ i)
+    {
+        pInitCellMap[i] = new int[4];
+    }
+    pInitCellMap[0][0] = 0;
+    pInitCellMap[0][1] = 1;
+    pInitCellMap[0][2] = 0;
+    pInitCellMap[0][3] = 1;
+    pInitCellMap[1][0] = 1;
+    pInitCellMap[1][1] = 0;
+    pInitCellMap[1][2] = 1;
+    pInitCellMap[1][3] = 0;
+    pInitCellMap[2][0] = 1;
+    pInitCellMap[2][1] = 1;
+    pInitCellMap[2][2] = 0;
+    pInitCellMap[2][3] = 0;
+    pInitCellMap[3][0] = 1;
+    pInitCellMap[3][1] = 1;
+    pInitCellMap[3][2] = 1;
+    pInitCellMap[3][3] = 0;
+
+    int finalCellMap[4][4] = {0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+    initMapSize(4, 4);
+    initCellStatus(pInitCellMap);
+    iterate(3);
+
+    for(int i = 1; i <= 4; ++ i)
+    {
+        for(int j = 1; j <= 4; ++ j)
+        {
+            assert(gCellMap[i][j] == finalCellMap[i - 1][j - 1]);
+        }
+    }
 }
 
 void testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithOne()
@@ -257,6 +364,9 @@ int main()
     testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithThree();
     testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithTwo();
     testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithFalseAndAroundLiveCellsWithTwo();
+
+    testShouldReturnAFinalCellMapWhenGivenInitialCellMapTwoMultiplyTwoAndIteratorTimesThree();
+    testShouldReturnAFinalCellMapWhenGivenInitialCellMapFourMultiplyFourAndIteratorTimesThree();
 
     return 0;
 }
