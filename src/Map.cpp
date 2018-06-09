@@ -16,8 +16,16 @@ Map::Map(int height, int width)
     {
         this->pCellMap[i] = new Cell[this->mWidth + 2];
     }
+}
 
+Map::getHeight()
+{
+    return this->mHeight;
+}
 
+Map::getWidth()
+{
+    return this->mWidth;
 }
 
 Map::~Map()

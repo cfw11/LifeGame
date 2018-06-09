@@ -11,12 +11,10 @@ int gIteratorTimes = -1;
 
 void initMapSize(int H, int W)
 {
-    if(H <= 0 || W <= 0) {
-        throw string("illegal");
-    }
+    Map mapObj(H, W);
 
-    gHeight = H;
-    gWidth = W;
+    gHeight = mapObj.getHeight();
+    gWidth = mapObj.getWidth();
 }
 
 void initCellStatus(int **initCellMap)

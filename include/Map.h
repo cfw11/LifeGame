@@ -7,7 +7,8 @@ class Map
     public:
         Map(int height, int width);
         virtual ~Map();
-
+        int getHeight();
+        int getWidth();
 
     protected:
 
