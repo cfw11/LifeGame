@@ -2,7 +2,17 @@
 
 Cell::Cell()
 {
-    //ctor
+
+}
+
+void Cell::setCellStatus(bool isAlive)
+{
+    this->mIsAlive = isAlive;
+}
+
+bool Cell::getCellStatus()
+{
+    return this->mIsAlive;
 }
 
 Cell::~Cell()

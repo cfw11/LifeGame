@@ -19,6 +19,9 @@ void initMapSize(int H, int W)
 
 void initCellStatus(int **initCellMap)
 {
+    Map mapObj(gHeight, gWidth);
+    mapObj.initCellStatus(initCellMap);
+
     // 外围增加一层作为边界
     gCellMap = new int*[gHeight + 2];
     for(int i = 0; i < gHeight + 2; ++ i)
@@ -26,25 +29,13 @@ void initCellStatus(int **initCellMap)
         gCellMap[i] = new int[gWidth + 2];
     }
 
-    for(int i = 0; i < gHeight + 2; ++ i)
-    {
-        gCellMap[i][0] = 0;
-        gCellMap[i][gWidth + 1] = 0;
-    }
-    for(int j = 0; j < gWidth + 2; ++ j)
-    {
-        gCellMap[0][j] = 0;
-        gCellMap[gHeight + 1][j] = 0;
-    }
 
-    for(int i = 1; i <= gHeight; ++ i)
+    for(int i = 0; i <= gHeight + 1; ++ i)
     {
-        for(int j = 1; j <= gWidth; ++ j)
+        for(int j = 0; j <= gWidth + 1; ++ j)
         {
-            if(initCellMap[i - 1][j - 1] != 0 && initCellMap[i - 1][j - 1] != 1) {
-                throw string("illegal");
-            }
-            gCellMap[i][j] = initCellMap[i - 1][j - 1];
+            Cell cellObj = mapObj.getCell(i, j);
+            gCellMap[i][j] = (int)cellObj.getCellStatus();
         }
     }
 }
@@ -82,14 +73,6 @@ void iterate(int times)
     }
 
     if(times < 0) times = 0;
-
-//    for(int i = 1; i <= gHeight; ++ i)
-//    {
-//        for(int j = 1; j <= gWidth; ++ j)
-//        {
-//            cout << gCellMap[i][j] << endl;
-//        }
-//    }
 
     while(times --) {
         for(int i = 1; i <= gHeight; ++ i)

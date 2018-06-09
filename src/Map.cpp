@@ -18,14 +18,44 @@ Map::Map(int height, int width)
     }
 }
 
-Map::getHeight()
+int Map::getHeight()
 {
     return this->mHeight;
 }
 
-Map::getWidth()
+int Map::getWidth()
 {
     return this->mWidth;
+}
+
+void Map::initCellStatus(int **initCellMap)
+{
+    for(int i = 0; i < this->getHeight() + 2; ++ i)
+    {
+        this->pCellMap[i][0].setCellStatus(false);
+        this->pCellMap[i][this->getWidth() + 1].setCellStatus(false);
+    }
+    for(int j = 0; j < this->getWidth() + 2; ++ j)
+    {
+        this->pCellMap[0][j].setCellStatus(false);
+        this->pCellMap[this->getHeight() + 1][j].setCellStatus(false);
+    }
+
+    for(int i = 1; i <= this->getHeight(); ++ i)
+    {
+        for(int j = 1; j <= this->getWidth(); ++ j)
+        {
+            if(initCellMap[i - 1][j - 1] != 0 && initCellMap[i - 1][j - 1] != 1) {
+                throw std::string("illegal");
+            }
+            this->pCellMap[i][j].setCellStatus((bool)initCellMap[i - 1][j - 1]);
+        }
+    }
+}
+
+Cell Map::getCell(int row, int col)
+{
+    return this->pCellMap[row][col];
 }
 
 Map::~Map()

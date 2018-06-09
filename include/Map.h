@@ -9,6 +9,8 @@ class Map
         virtual ~Map();
         int getHeight();
         int getWidth();
+        void initCellStatus(int **initCellMap);
+        Cell getCell(int row, int col);
 
     protected:
 
