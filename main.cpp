@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cassert>
+#include "Map.h"
 
 using namespace std;
 
@@ -367,6 +368,8 @@ int main()
 
     testShouldReturnAFinalCellMapWhenGivenInitialCellMapTwoMultiplyTwoAndIteratorTimesThree();
     testShouldReturnAFinalCellMapWhenGivenInitialCellMapFourMultiplyFourAndIteratorTimesThree();
+
+
 
     return 0;
 }

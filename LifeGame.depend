@@ -4,7 +4,16 @@
 
 1528514692 c:\codeblocks\tw0610\tw0610\lifegame\include\map.h
 
-1528524412 source:c:\codeblocks\tw0610\lifegame\main.cpp
+1528528491 source:c:\codeblocks\tw0610\lifegame\main.cpp
 	<iostream>
 	<cassert>
+	"Map.h"
+
+1528529071 source:c:\codeblocks\tw0610\lifegame\src\cell.cpp
+	"Cell.h"
+
+1528529071 c:\codeblocks\tw0610\lifegame\include\cell.h
+
+1528529115 c:\codeblocks\tw0610\lifegame\include\map.h
+	"Cell.h"
 
