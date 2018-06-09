@@ -9,6 +9,7 @@ class Cell
         virtual ~Cell();
         void setCellStatus(bool isAlive);
         bool getCellStatus();
+        bool evolveStatus(int aroundLiveCells);
 
     protected:
 

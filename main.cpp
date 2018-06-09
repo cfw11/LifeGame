@@ -42,26 +42,10 @@ void initCellStatus(int **initCellMap)
 
 bool evolveStatus(bool currentCellStatus, int aroundLiveCells)
 {
-    if(currentCellStatus) {
-        if(aroundLiveCells < 2) {
-            return false;
-        }
-        if(aroundLiveCells > 3) {
-            return false;
-        }
-        if(aroundLiveCells == 3) {
-            return true;
-        }
-        if(aroundLiveCells == 2) {
-            return currentCellStatus;
-        }
-    } else {
-        if(aroundLiveCells == 3) {
-            return true;
-        }
-    }
+    Cell cellObj;
+    cellObj.setCellStatus(currentCellStatus);
 
-    return false;
+    return cellObj.evolveStatus(aroundLiveCells);
 }
 
 void iterate(int times)
