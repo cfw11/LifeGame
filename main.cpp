@@ -8,6 +8,10 @@ int gHeight = -1, gWidth = -1;
 
 void initMapSize(int H, int W)
 {
+    if(H <= 0 || W <= 0) {
+        throw string("illegal");
+    }
+
     gHeight = H;
     gWidth = W;
 }
@@ -49,13 +53,27 @@ void testShouldReturnAMapWhenInitiateWithWidthAndHeight()
     assert(gHeight == height && gWidth == width);
 }
 
+void testShouldThrowExceptionWhenInitiateWithWidthAndHeightIsIllegal()
+{
+    int height = 0;
+    string exceptionstring = "";
+    int width = 0;
+    try{
+    initMapSize(height,width);
+    }
+    catch(string e){
+        exceptionstring = e;
+    }
+    assert(exceptionstring == "illegal");
+
+}
 
 
 int main()
 {
 
     testShouldReturnAMapWhenInitiateWithWidthAndHeight();
-
+testShouldThrowExceptionWhenInitiateWithWidthAndHeightIsIllegal();
 
     return 0;
 }
