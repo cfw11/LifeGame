@@ -50,36 +50,31 @@ bool evolveStatus(bool currentCellStatus, int aroundLiveCells)
 
 void iterate(int times)
 {
-    int **countMap = new int*[gHeight + 2];
-    for(int i = 0; i < gHeight + 2; ++ i)
+    Map mapObj(gHeight, gWidth);
+
+    int **cellMap = new int*[gHeight];
+    for(int i = 0; i < gHeight; ++ i)
     {
-        countMap[i] = new int[gWidth + 2];
+        cellMap[i] = new int[gWidth];
     }
 
-    if(times < 0) times = 0;
-
-    while(times --) {
-        for(int i = 1; i <= gHeight; ++ i)
+    for(int i = 0; i < gHeight; ++ i)
+    {
+        for(int j = 0; j < gWidth; ++ j)
         {
-            for(int j = 1; j <= gWidth; ++ j)
-            {
-                countMap[i][j] = 0;
-                for(int k = i - 1; k <= i + 1; ++ k)
-                {
-                    countMap[i][j] += gCellMap[k][j - 1];
-                    countMap[i][j] += gCellMap[k][j];
-                    countMap[i][j] += gCellMap[k][j + 1];
-                }
-                countMap[i][j] -= gCellMap[i][j];
-            }
+            cellMap[i][j] = gCellMap[i + 1][j + 1];
         }
+    }
 
-        for(int i = 1; i <= gHeight; ++ i)
+    mapObj.initCellStatus(cellMap);
+    mapObj.iterate(times);
+
+    for(int i = 0; i <= gHeight + 1; ++ i)
+    {
+        for(int j = 0; j <= gWidth + 1; ++ j)
         {
-            for(int j = 1; j <= gWidth; ++ j)
-            {
-                gCellMap[i][j] = evolveStatus(gCellMap[i][j], countMap[i][j]);
-            }
+            Cell cellObj = mapObj.getCell(i, j);
+            gCellMap[i][j] = (int)cellObj.getCellStatus();
         }
     }
 }

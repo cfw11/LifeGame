@@ -4,20 +4,21 @@
 
 1528514692 c:\codeblocks\tw0610\tw0610\lifegame\include\map.h
 
-1528531886 source:c:\codeblocks\tw0610\lifegame\main.cpp
+1528533106 source:c:\codeblocks\tw0610\lifegame\main.cpp
 	<iostream>
 	<cassert>
 	"Map.h"
 
-1528530637 source:c:\codeblocks\tw0610\lifegame\src\cell.cpp
+1528531907 source:c:\codeblocks\tw0610\lifegame\src\cell.cpp
 	"Cell.h"
 
 1528531897 c:\codeblocks\tw0610\lifegame\include\cell.h
 
-1528530560 c:\codeblocks\tw0610\lifegame\include\map.h
+1528531995 c:\codeblocks\tw0610\lifegame\include\map.h
 	"Cell.h"
 
-1528530596 source:c:\codeblocks\tw0610\lifegame\src\map.cpp
+1528533122 source:c:\codeblocks\tw0610\lifegame\src\map.cpp
 	"Map.h"
 	<string>
+	<iostream>
 

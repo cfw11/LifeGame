@@ -11,6 +11,7 @@ class Map
         int getWidth();
         void initCellStatus(int **initCellMap);
         Cell getCell(int row, int col);
+        void iterate(int times);
 
     protected:
 
