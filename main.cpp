@@ -1,5 +1,9 @@
 #include <iostream>
 #include <cassert>
+#include <cstdlib>
+#include <windows.h>
+#include <time.h>
+#include <conio.h>
 #include "Map.h"
 
 using namespace std;
@@ -313,22 +317,102 @@ void testShouldThrowExceptionWhenInitialteWithInitalCellMapIllegal()
 
 int main()
 {
-    testShouldReturnAMapWhenInitiateWithWidthAndHeight();
-    testShouldThrowExceptionWhenInitiateWithWidthAndHeightIsIllegal();
+//    testShouldReturnAMapWhenInitiateWithWidthAndHeight();
+//    testShouldThrowExceptionWhenInitiateWithWidthAndHeightIsIllegal();
+//
+//    testShouldReturnACellMapWhenInitialteWithInitalCellMap();
+//    testShouldThrowExceptionWhenInitialteWithInitalCellMapIllegal();
+//
+//    testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithOne();
+//    testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithFour();
+//    testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithFalseAndAroundLiveCellsWithThree();
+//    testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithThree();
+//    testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithTwo();
+//    testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithFalseAndAroundLiveCellsWithTwo();
+//
+//    testShouldReturnAFinalCellMapWhenGivenInitialCellMapTwoMultiplyTwoAndIteratorTimesThree();
+//    testShouldReturnAFinalCellMapWhenGivenInitialCellMapFourMultiplyFourAndIteratorTimesThree();
 
-    testShouldReturnACellMapWhenInitialteWithInitalCellMap();
-    testShouldThrowExceptionWhenInitialteWithInitalCellMapIllegal();
+    printf("输入地图高度：");
+    int height;
+    scanf("%d", &height);
+    printf("输入地图宽度：");
+    int width;
+    scanf("%d", &width);
 
-    testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithOne();
-    testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithFour();
-    testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithFalseAndAroundLiveCellsWithThree();
-    testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithThree();
-    testShouldReturnCellEvolveStatusWithTrueWhenGivenCurrentStatusWithTrueAndAroundLiveCellsWithTwo();
-    testShouldReturnCellEvolveStatusWithFalseWhenGivenCurrentStatusWithFalseAndAroundLiveCellsWithTwo();
+    Map mapObj(height, width);
+    srand((unsigned int)time(0));
+    int **pInitCellMap = new int*[height];
+    for(int i = 0; i < height; ++ i)
+    {
+        pInitCellMap[i] = new int[width];
+        for(int j = 0; j < width; ++ j)
+        {
+            pInitCellMap[i][j] = rand()%2;
+        }
+    }
 
-    testShouldReturnAFinalCellMapWhenGivenInitialCellMapTwoMultiplyTwoAndIteratorTimesThree();
-    testShouldReturnAFinalCellMapWhenGivenInitialCellMapFourMultiplyFourAndIteratorTimesThree();
+    mapObj.initCellStatus(pInitCellMap);
 
+    for(int i = 0; i < height; ++ i)
+    {
+        for(int j = 0; j < width; ++ j)
+        {
+            if(mapObj.getCell(i, j).getCellStatus()) {
+                cout << "*";
+            } else {
+                cout << " ";
+            }
+        }
+        cout << endl;
+    }
+
+    printf("输入迭代次数：");
+    int times;
+    scanf("%d", &times);
+    system("cls");
+    bool flag = false;
+    char ch;
+    for(int i = 0; i < times; ++ i)
+    {
+        if(kbhit()) {
+            ch = getch();
+            if(27 == ch) {
+                if(flag) flag = false;
+                else flag = true;
+            }
+        }
+
+        while(flag) {
+            if(kbhit()) {
+                ch = getch();
+                if(27 == ch) {
+                    if(flag) flag = false;
+                    else flag = true;
+                }
+            }
+        }
+
+        mapObj.iterate(1);
+        system("cls");
+        for(int i = 0; i < height; ++ i)
+        {
+            for(int j = 0; j < width; ++ j)
+            {
+                if(mapObj.getCell(i, j).getCellStatus()) {
+                    cout << "*";
+                } else {
+                    cout << " ";
+                }
+            }
+            cout << endl;
+        }
+        cout << endl;
+        cout << endl;
+        cout << endl;
+        cout << "PS:按下ESC暂停/继续\n";
+        Sleep(300);
+    }
 
 
     return 0;

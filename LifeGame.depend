@@ -4,9 +4,13 @@
 
 1528514692 c:\codeblocks\tw0610\tw0610\lifegame\include\map.h
 
-1528533106 source:c:\codeblocks\tw0610\lifegame\main.cpp
+1528534470 source:c:\codeblocks\tw0610\lifegame\main.cpp
 	<iostream>
 	<cassert>
+	<cstdlib>
+	<windows.h>
+	<time.h>
+	<conio.h>
 	"Map.h"
 
 1528531907 source:c:\codeblocks\tw0610\lifegame\src\cell.cpp
